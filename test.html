@@ -41,19 +41,23 @@
 
 	var text = 'Samen op vakantie, de kinderen willen spetteren in het subtropische zwembad en de hogen golven in het golfslagbad trotseren, de sensationele glijbanen uitproberen of alle andere faciliteiten ontdekken. Voor de kleinere kinderen zijn er vaak aparte rustige kinderbadjes met hogere temperaturen. Daarnaast hebben subtropische zwembaden diverse extra\'s zoals kruidenbaden, bruisbaden en whirlpools. En kunt u er lekker ontspannen in de sauna, het Turks Stoombad of de zonnebanken.';
 
-
-	var textArray = text.split(' ');
-	var wordCounter = 0;
-	var testString="";
-
-	var container = document.querySelector('#container');
-	var testContainer = document.querySelector('#testContainer');
 	var exampleContainer = document.querySelector('#example');
-	var linesArray = [];
-	var lineWordArray = [];
+
 
 
 	var caculateLines = function() {
+
+		var textArray = text.split(' ');
+		var wordCounter = 0;
+		var testString="";
+
+		var container = document.querySelector('#container');
+			container.innerHTML = '';
+		var testContainer = document.querySelector('#testContainer');
+
+		var linesArray = [];
+		var lineWordArray = [];
+		var	numberOfChars = 0;
 
 		exampleContainer.innerHTML = text;
 
@@ -66,20 +70,43 @@
 			if(testContainer.offsetWidth > 500 ||  wordCounter === (textArray.length-1)) {
 
 				var lastWord = lineWordArray.splice(lineWordArray.length-1);
-
 				var newLine = document.createElement('div');
+					newLine.setAttribute('numberOfChars', numberOfChars);
 					newLine.innerHTML =lineWordArray.join('&nbsp;');
-
 
 				container.appendChild(newLine);
 
+				numberOfChars += lineWordArray.join(' ').length;
 				lineWordArray = [ lastWord ];
 			}
 			wordCounter++;	
 		}
 	}
+
+
+	var insertCharacter = function( event ) {
+
+		var selObj = window.getSelection();
+		var startOffset = selObj.getRangeAt(0).startOffset;
+		var startOffsetContainer = selObj.getRangeAt(0).startContainer;
+		var lineOffset = startOffsetContainer.parentNode.getAttribute('numberOfChars');
+
+		var parts = [];
+			parts.push(text.substring(0, lineOffset+startOffset));
+			parts.push(String.fromCharCode(event.which));
+			parts.push(text.substring(lineOffset+startOffset, text.length));
+
+		text = parts.join('');
+
+		exampleContainer.innerHTML = text;
+
+
+		caculateLines();
+	}
 	
 	caculateLines();
+
+	document.addEventListener('keypress', insertCharacter, true);
 
 
 </script>

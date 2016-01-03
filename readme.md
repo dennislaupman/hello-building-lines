@@ -1,6 +1,6 @@
 ## Description
 
-Testy to create (multi) line of a text string
+Test to create (multi) line of a text string
 
 #### Watch (in browser)
 >
