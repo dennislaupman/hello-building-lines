@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Hello - Building Lines Demo</title>
+
+
+	<style type="text/css">
+
+	#container {
+
+		width: 500px;
+		margin-bottom: 25px;
+		padding: 10px;
+		border: 1px solid #999;
+	}
+
+	#example {
+
+		width: 500px;
+		padding: 10px;
+		border: 1px solid #999;
+	}
+
+	#testContainer {
+
+		visibility: hidden
+	}
+
+	</style>
+</head>
+<body>
+
+
+<div id="container"></div>
+<div id="example"></div>
+
+<span id="testContainer"></span>
+
+<script type="text/javascript">
+	
+
+	var text = 'Samen op vakantie, de kinderen willen spetteren in het subtropische zwembad en de hogen golven in het golfslagbad trotseren, de sensationele glijbanen uitproberen of alle andere faciliteiten ontdekken. Voor de kleinere kinderen zijn er vaak aparte rustige kinderbadjes met hogere temperaturen. Daarnaast hebben subtropische zwembaden diverse extra\'s zoals kruidenbaden, bruisbaden en whirlpools. En kunt u er lekker ontspannen in de sauna, het Turks Stoombad of de zonnebanken.';
+
+
+	var textArray = text.split(' ');
+	var wordCounter = 0;
+	var testString="";
+
+	var container = document.querySelector('#container');
+	var testContainer = document.querySelector('#testContainer');
+	var exampleContainer = document.querySelector('#example');
+	var linesArray = [];
+	var lineWordArray = [];
+
+
+	var caculateLines = function() {
+
+		exampleContainer.innerHTML = text;
+
+		while(wordCounter < textArray.length) {
+
+			lineWordArray.push(textArray[wordCounter]);
+			
+			testContainer.innerHTML = lineWordArray.join('&nbsp');
+			
+			if(testContainer.offsetWidth > 500 ||  wordCounter === (textArray.length-1)) {
+
+				var lastWord = lineWordArray.splice(lineWordArray.length-1);
+
+				var newLine = document.createElement('div');
+					newLine.innerHTML =lineWordArray.join('&nbsp;');
+
+
+				container.appendChild(newLine);
+
+				lineWordArray = [ lastWord ];
+			}
+			wordCounter++;	
+		}
+	}
+	
+	caculateLines();
+
+
+</script>
+
+
+</body>
+</html>
