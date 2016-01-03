@@ -87,6 +87,7 @@
 
 	var insertCharacter = function( event ) {
 
+		cursorOffset++;
 		
 		var parts = [];
 			parts.push(text.substring(0, cursorOffset));
@@ -108,7 +109,7 @@
 		var startOffsetContainer = selObj.getRangeAt(0).startContainer;
 		var lineOffset = parseInt(startOffsetContainer.parentNode.getAttribute('numberOfChars'), 10);
 		
-		cursorOffset = lineOffset+startOffset;
+		cursorOffset = lineOffset+startOffset-1;
 	}
 	
 	caculateLines();
