@@ -42,7 +42,8 @@
 	var text = 'Samen op vakantie, de kinderen willen spetteren in het subtropische zwembad en de hogen golven in het golfslagbad trotseren, de sensationele glijbanen uitproberen of alle andere faciliteiten ontdekken. Voor de kleinere kinderen zijn er vaak aparte rustige kinderbadjes met hogere temperaturen. Daarnaast hebben subtropische zwembaden diverse extra\'s zoals kruidenbaden, bruisbaden en whirlpools. En kunt u er lekker ontspannen in de sauna, het Turks Stoombad of de zonnebanken.';
 
 	var exampleContainer = document.querySelector('#example');
-
+	var cursorOffset = 0;
+	
 
 
 	var caculateLines = function() {
@@ -86,15 +87,11 @@
 
 	var insertCharacter = function( event ) {
 
-		var selObj = window.getSelection();
-		var startOffset = selObj.getRangeAt(0).startOffset;
-		var startOffsetContainer = selObj.getRangeAt(0).startContainer;
-		var lineOffset = startOffsetContainer.parentNode.getAttribute('numberOfChars');
-
+		
 		var parts = [];
-			parts.push(text.substring(0, lineOffset+startOffset));
+			parts.push(text.substring(0, cursorOffset));
 			parts.push(String.fromCharCode(event.which));
-			parts.push(text.substring(lineOffset+startOffset, text.length));
+			parts.push(text.substring(cursorOffset, text.length));
 
 		text = parts.join('');
 
@@ -103,9 +100,20 @@
 
 		caculateLines();
 	}
+
+	var getCursor = function() {
+
+		var selObj = window.getSelection();
+		var startOffset = selObj.getRangeAt(0).startOffset;
+		var startOffsetContainer = selObj.getRangeAt(0).startContainer;
+		var lineOffset = parseInt(startOffsetContainer.parentNode.getAttribute('numberOfChars'), 10);
+		
+		cursorOffset = lineOffset+startOffset;
+	}
 	
 	caculateLines();
 
+	container.addEventListener('click', getCursor, true);
 	document.addEventListener('keypress', insertCharacter, true);
 
 
