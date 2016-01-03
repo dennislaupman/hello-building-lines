@@ -69,10 +69,13 @@
 			testContainer.innerHTML = lineWordArray.join('&nbsp');
 			
 			if(testContainer.offsetWidth > 500 ||  wordCounter === (textArray.length-1)) {
+				
+				//added 1 for space at the start of the line. This space isn't set
+				numberOfChars += 1;
 
 				var lastWord = lineWordArray.splice(lineWordArray.length-1);
 				var newLine = document.createElement('div');
-					newLine.setAttribute('numberOfChars', numberOfChars);
+					newLine.setAttribute('numberOfChars', numberOfChars-1);
 					newLine.innerHTML =lineWordArray.join('&nbsp;');
 
 				container.appendChild(newLine);
